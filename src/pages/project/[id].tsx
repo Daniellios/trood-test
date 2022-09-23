@@ -1,7 +1,7 @@
 import React from "react";
 import { store } from "../../redux/store";
 import { ItableData } from "../../redux/tableSlice";
-
+import { GetStaticProps } from "next";
 const data = store.getState().tableData;
 
 export const getStaticPaths = async () => {
@@ -17,12 +17,12 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const getStaticProps = async (context: any) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   console.log(context);
 
   const res = data
     .filter(
-      (project: ItableData) => context.params.id === project.id.toString()
+      (project: ItableData) => context?.params?.id === project.id.toString()
     )
     .map((project: ItableData) => project);
 

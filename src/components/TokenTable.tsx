@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ItableData, selectTableData } from "../redux/tableSlice";
 
 import { AiFillCaretDown } from "react-icons/ai";
@@ -30,35 +30,25 @@ const TokenTable = () => {
     return ID;
   };
 
-  console.log("component", projectName);
-
-  const handleProjectNameFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProjectName(e.currentTarget.value);
-    console.log("adter set");
-    const originalCopy = tokenTableInfo;
-    const filteredByName = tokenTableInfo.filter((project) =>
-      project.name.includes(projectName)
-    );
-
-    setFilteredList(filteredByName);
-
-    // console.log("token table copy");
-    // if (projectName) {
-    //   console.log("here");
-
-    // } else {
-    //   setFilteredList(originalCopy);
-    // }
-  };
-
-  const handleTokenTypeFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTokenType(e.target.value);
-  };
+  console.log("rendered", projectName);
 
   const handleAllFilter = () => {
     const allOrder = [...tokenTableInfo];
     setFilteredList(allOrder);
   };
+
+  useEffect(() => {
+    if (projectName || tokenType) {
+      const filteredByName = tokenTableInfo.filter(
+        (project) =>
+          project.name.toLowerCase().includes(projectName) &&
+          project.type.toLowerCase().includes(tokenType)
+      );
+      setFilteredList(filteredByName);
+    } else {
+      setFilteredList(tokenTableInfo);
+    }
+  }, [projectName, tokenType, tokenTableInfo]);
 
   const handleOrderFilter = (fieldType: string) => {
     if (fieldType === "projects") {
@@ -127,7 +117,7 @@ const TokenTable = () => {
           </button>
           <input
             value={projectName}
-            onChange={handleProjectNameFilter}
+            onChange={(e) => setProjectName(e.target.value)}
             type="text"
             placeholder="Project"
             className="text-slate-700 border-[1px] border-slate-500 rounded p-1 w-32 bg-slate-100/90 outline-1 focus:outline-blue-500"
@@ -149,7 +139,7 @@ const TokenTable = () => {
           </button>
           <input
             value={tokenType}
-            onChange={() => handleOrderFilter("tokens")}
+            onChange={(e) => setTokenType(e.target.value)}
             type="text"
             placeholder="Token Type"
             className="text-slate-700 border-[1px]  border-slate-500 rounded-sm p-1 w-32 bg-slate-100/90 outline-1 focus:outline-blue-500"
