@@ -2,6 +2,10 @@ import React from "react";
 import { store } from "../../redux/store";
 import { ItableData } from "../../redux/tableSlice";
 import { GetStaticProps } from "next";
+interface IProject {
+  project: ItableData;
+}
+
 const data = store.getState().tableData;
 
 export const getStaticPaths = async () => {
@@ -18,8 +22,6 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  console.log(context);
-
   const res = data
     .filter(
       (project: ItableData) => context?.params?.id === project.id.toString()
@@ -31,10 +33,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
-const ProjectDetails = ({ project }: any) => {
+const ProjectDetails = ({ project }: IProject) => {
   return (
-    <div className="mx-auto my-0 ">
-      <h1 className="font-bold text-2xl">{project.name}</h1>{" "}
+    <div className="mx-auto my-0 flex justify-center">
+      <h1 className=" font-bold text-5xl">{project.name}</h1>
     </div>
   );
 };

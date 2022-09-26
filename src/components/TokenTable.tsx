@@ -19,6 +19,7 @@ const TokenTable = () => {
   const [tokenType, setTokenType] = useState<string>("");
   const [filteredList, setFilteredList] =
     useState<ItableData[]>(tokenTableInfo);
+
   const [fieldOrders, setFieldOrders] = useState<IColumnFilters>({
     projects: false,
     tokens: false,
@@ -26,11 +27,10 @@ const TokenTable = () => {
     volume: false,
   });
 
-  const hanldeBuy = (ID: number) => {
+  const hanldeBuy = (ID: number, e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     return ID;
   };
-
-  console.log("rendered", projectName);
 
   const handleAllFilter = () => {
     const allOrder = [...tokenTableInfo];
@@ -120,7 +120,7 @@ const TokenTable = () => {
             onChange={(e) => setProjectName(e.target.value)}
             type="text"
             placeholder="Project"
-            className="text-slate-700 border-[1px] border-slate-500 rounded p-1 w-32 bg-slate-100/90 outline-1 focus:outline-blue-500"
+            className="text-slate-700 border-[1px]  border-slate-500/20 rounded p-1 w-32 bg-slate-100/90 outline-1 focus:outline-blue-500"
           />
         </div>
         {/* TOKEN TYPE */}
@@ -142,28 +142,34 @@ const TokenTable = () => {
             onChange={(e) => setTokenType(e.target.value)}
             type="text"
             placeholder="Token Type"
-            className="text-slate-700 border-[1px]  border-slate-500 rounded-sm p-1 w-32 bg-slate-100/90 outline-1 focus:outline-blue-500"
+            className="text-slate-700 border-[1px]  border-slate-500/20 rounded-sm p-1 w-32 bg-slate-100/90 outline-1 focus:outline-blue-500"
           />
         </div>
         {/* CONDITIONS */}
         <div className="flex items-center gap-2">
-          <button onClick={() => handleOrderFilter("conditions")}>
+          <button
+            onClick={() => handleOrderFilter("conditions")}
+            className="flex items-center gap-1"
+          >
             <AiFillCaretDown
               size={".65rem"}
               className={fieldOrders.conditions ? `rotate-180` : `rotate-0`}
             ></AiFillCaretDown>
+            Conditions
           </button>
-          Conditions
         </div>
         {/* VOLUME */}
         <div className="flex items-center gap-2">
-          <button onClick={() => handleOrderFilter("volume")}>
+          <button
+            onClick={() => handleOrderFilter("volume")}
+            className="flex items-center gap-1"
+          >
             <AiFillCaretDown
               size={".65rem"}
               className={fieldOrders.volume ? `rotate-180` : `rotate-0`}
             ></AiFillCaretDown>
+            VOLUME
           </button>
-          VOLUME
         </div>
         <div>ROI</div>
         <div>Free Float</div>
@@ -173,10 +179,7 @@ const TokenTable = () => {
       <div className="flex flex-col gap-4">
         {filteredList.map((project) => (
           <Link href={`project/${project.id}`} key={project.id}>
-            <div
-              onClick={() => hanldeBuy(project.id)}
-              className="grid grid-cols-table w-full items-center cursor-pointer hover:bg-purple-200/70 text font-medium"
-            >
+            <div className="grid grid-cols-table w-full items-center cursor-pointer hover:bg-purple-200/70 text font-medium">
               <div className="flex items-center gap-4">
                 <div
                   className={`w-[10px] h-[10px] bg-${project.status}-500 rounded-full`}
@@ -190,7 +193,10 @@ const TokenTable = () => {
               <div>{project.roi}</div>
               <div>{project.free}</div>
               <div>{project.hedge}%</div>
-              <button className="flex font-medium p-1 justify-center bg-white items-center border-[2px] border-purple-700 text-purple-700 hover:text-white hover:bg-purple-700 rounded">
+              <button
+                onClick={(e) => hanldeBuy(project.id, e)}
+                className="flex font-medium p-1 justify-center bg-white items-center border-[2px] border-purple-700 text-purple-700 hover:text-white hover:bg-purple-700 rounded"
+              >
                 Buy
               </button>
             </div>
