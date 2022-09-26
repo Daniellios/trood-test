@@ -10,10 +10,8 @@ module.exports = {
         "free-float": "#7A7A7A",
       },
       gridTemplateColumns: {
-        //repeat(8, minmax(0, 1fr))
-        // Complex site-specific column configuration
-        table:
-          "200px 200px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr)",
+        // Table config
+        table: "200px 200px repeat(6, minmax(0, 1fr) )",
       },
     },
   },

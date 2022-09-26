@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .status-red {
+    @apply grid grid-cols-table w-full items-center cursor-pointer hover:bg-red-300/70  font-medium;
+  }
+  .status-yellow {
+    @apply grid grid-cols-table w-full items-center cursor-pointer hover:bg-yellow-300/70  font-medium;
+  }
+  .status-green {
+    @apply grid grid-cols-table w-full items-center cursor-pointer hover:bg-green-300/70  font-medium;
+  }
+
+  .status-green-circle {
+    @apply bg-green-500 w-[10px] h-[10px] rounded-full;
+  }
+
+  .status-yellow-circle {
+    @apply bg-yellow-500 w-[10px] h-[10px] rounded-full;
+  }
+
+  .status-red-circle {
+    @apply bg-red-500 w-[10px] h-[10px] rounded-full;
+  }
+}

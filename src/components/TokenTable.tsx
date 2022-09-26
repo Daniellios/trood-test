@@ -27,7 +27,7 @@ const TokenTable = () => {
     volume: false,
   });
 
-  const hanldeBuy = (ID: number, e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleOnBuy = (ID: number, e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     return ID;
   };
@@ -179,10 +179,28 @@ const TokenTable = () => {
       <div className="flex flex-col gap-4">
         {filteredList.map((project) => (
           <Link href={`project/${project.id}`} key={project.id}>
-            <div className="grid grid-cols-table w-full items-center cursor-pointer hover:bg-purple-200/70 text font-medium">
+            <div
+              className={
+                project.status === "red"
+                  ? "status-red"
+                  : project.status === "green"
+                  ? "status-green"
+                  : project.status === "yellow"
+                  ? "status-yellow"
+                  : ""
+              }
+            >
               <div className="flex items-center gap-4">
                 <div
-                  className={`w-[10px] h-[10px] bg-${project.status}-500 rounded-full`}
+                  className={
+                    project.status === "red"
+                      ? "status-red-circle"
+                      : project.status === "green"
+                      ? "status-green-circle"
+                      : project.status === "yellow"
+                      ? "status-yellow-circle"
+                      : ""
+                  }
                 ></div>
                 <h3>{project.name}</h3>
               </div>
@@ -194,7 +212,7 @@ const TokenTable = () => {
               <div>{project.free}</div>
               <div>{project.hedge}%</div>
               <button
-                onClick={(e) => hanldeBuy(project.id, e)}
+                onClick={(e) => handleOnBuy(project.id, e)}
                 className="flex font-medium p-1 justify-center bg-white items-center border-[2px] border-purple-700 text-purple-700 hover:text-white hover:bg-purple-700 rounded"
               >
                 Buy
